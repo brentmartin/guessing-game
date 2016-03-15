@@ -5,17 +5,22 @@ def create_vars
   @guessprev = []
 end
 
-def pick_num
+def populate_num
   (1..100).each do |n|
     @range.push(n)
   end
+end
+
+def pick_num
   @number = @range.sample
+  @range.delete(@number)
 end
 
 def guess_num
   puts "What number would you like to guess?"
   print "> "
   @guess = gets.chomp
+  @guesscount += 1
 end
 
 # @board.include?(n)
@@ -23,7 +28,7 @@ end
 # @board.delete(n)
 
 def check_guess
-  def already_guessed
+  def already_guessed(n)
     if @guessprev.include?(n)
       "Dude, you already guess this - stop smoking."
     else
@@ -31,22 +36,35 @@ def check_guess
     end
   end
   def hit_miss
-    if @guess == @number
+    if @guess.to_i == @number.to_i
       @win = true
       puts "You Win!"
+      puts "It took you #{@guesscount} guesses."
     else
-      puts "Whiffed!"
+      puts "Whiffed! You've guessed #{@guesscount} times."
     end
   end
   def high_low
-    when @guess > @number
+    if @guess.to_i > @number.to_i
       puts "You guessed high, try lower."
-    when @guess < @number
+    elsif @guess.to_i < @number.to_i
       puts "You guessed low, try higher."
+    end
   end
   already_guessed(@guess)
   hit_miss
   high_low
+end
+
+def guess_again
+  while @guesscount <= 5
+  # pick_num
+  guess_num
+  system("clear")
+  check_guess
+  test_area
+  end
+  puts "Too many guesses, you loose!"
 end
 
 ###########################################
@@ -67,13 +85,20 @@ def test_area                      ########
   pre_test_content                 ########
   puts "number is: #{@number}"     ########
   puts "guess is: #{@guess}"       ########
+  puts "guesscount: #{@guesscount}"########
+  puts "guesses: #{@guessprev}"    ########
+  puts                             ########
+  print "range: #{@range}"         ########
   post_test_content                ########
 end                                ########
 ###########################################
 ###########################################
 
 create_vars
+populate_num
 pick_num
 guess_num
-
-test_area
+system("clear")
+check_guess
+# test_area
+guess_again
