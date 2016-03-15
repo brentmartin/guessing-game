@@ -1,7 +1,8 @@
 def create_vars
   @range = []
   @win = false
-  @guess_count = 0
+  @guesscount = 0
+  @guessprev = []
 end
 
 def pick_num
@@ -17,16 +18,36 @@ def guess_num
   @guess = gets.chomp
 end
 
-# def check_guess
-#   if @guess == @number
-#     @win = true
-#     puts you win!
-#   elsif @guess > @number
-#     puts "You guessed high, try lower."
-#   elsif @guess < @number
-#     puts "You guessed low, try higher."
-#   end
-# end
+# @board.include?(n)
+# @player1.push(n)
+# @board.delete(n)
+
+def check_guess
+  def already_guessed
+    if @guessprev.include?(n)
+      "Dude, you already guess this - stop smoking."
+    else
+      @guessprev.push(n)
+    end
+  end
+  def hit_miss
+    if @guess == @number
+      @win = true
+      puts "You Win!"
+    else
+      puts "Whiffed!"
+    end
+  end
+  def high_low
+    when @guess > @number
+      puts "You guessed high, try lower."
+    when @guess < @number
+      puts "You guessed low, try higher."
+  end
+  already_guessed(@guess)
+  hit_miss
+  high_low
+end
 
 ###########################################
 ### TESTING TESTING #######################
